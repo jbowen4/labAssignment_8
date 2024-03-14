@@ -27,10 +27,42 @@ size_t Size(void* ptr)
 	return ((size_t*)ptr)[-1];
 }
 
+
+void merge(int pData[], int start, int mid, int end)
+{
+	int length = (end - start) + 1;
+	int* temp = Alloc(sizeof(int)* length);
+
+	int i = 0;
+	while ((start < mid) && (mid <= end)) {
+		if (pData[start] < pData[mid])
+			temp[i++] = pData[start++];
+		else 
+			temp[i++] = pData[mid++];
+	}
+
+	while (start < mid)
+		temp[i++] = pData[start++];
+
+	while (mid <= end)
+		temp[i++] = pData[mid++];
+
+	for (int i = 0; i < length; i++)
+		pData[start + i] = temp[i];
+
+	DeAlloc(temp);
+}
+
 // implement merge sort
 // extraMemoryAllocated counts bytes of extra memory allocated
 void mergeSort(int pData[], int l, int r)
 {
+	if (l < r) {
+		int mid = (l + r) / 2;
+		mergeSort(pData, l, mid);
+		mergeSort(pData, mid+1, r);
+		merge(pData, l, mid+1, r);
+	}
 }
 
 // parses input file to an integer array
