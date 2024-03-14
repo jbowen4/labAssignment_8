@@ -33,22 +33,24 @@ void merge(int pData[], int start, int mid, int end)
 	int length = (end - start) + 1;
 	int* temp = Alloc(sizeof(int)* length);
 
+	int left = start;
+	int right = mid;
 	int i = 0;
-	while ((start < mid) && (mid <= end)) {
-		if (pData[start] < pData[mid])
-			temp[i++] = pData[start++];
+	while (left < mid && right <= end) {
+		if (pData[left] < pData[right])
+			temp[i++] = pData[left++];
 		else 
-			temp[i++] = pData[mid++];
+			temp[i++] = pData[right++];
 	}
 
-	while (start < mid)
-		temp[i++] = pData[start++];
+	while (left < mid)
+		temp[i++] = pData[left++];
 
-	while (mid <= end)
-		temp[i++] = pData[mid++];
+	while (right <= end)
+		temp[i++] = pData[right++];
 
-	for (int i = 0; i < length; i++)
-		pData[start + i] = temp[i];
+	for (int i = start; i <= end; i++)
+		pData[i] = temp[i - start];
 
 	DeAlloc(temp);
 }
